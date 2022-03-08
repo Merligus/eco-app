@@ -4,6 +4,8 @@ import path from "path";
 import routes from "./routes";
 import { errors } from "celebrate";
 
+const portSelected = process.env.PORT || 3000
+
 const app = express();
 
 app.use(cors())
@@ -14,4 +16,4 @@ app.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
 
 app.use(errors());
 
-app.listen(3000);
+app.listen(portSelected);

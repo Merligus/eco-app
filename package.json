@@ -4,7 +4,7 @@
   "description": "Web application where you can find places that collect certain types of biodegradable wastes. The back-end of the application was developed routing with Express and a relational database using Knex.",
   "main": "index.js",
   "scripts": {
-    "heroku-prebuild": "cd server && npm install && npm run knex:migrate",
+    "heroku-prebuild": "cd server && npm install && npm run build-tsc",
     "start": "cd server && npm start",
     "build": "cd web && npm install && npm run build"
   },
