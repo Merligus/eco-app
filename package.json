@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Merligus/eco-app/issues"
   },
-  "homepage": "https://github.com/Merligus/eco-app#readme"
+  "homepage": "https://github.com/Merligus/eco-app#readme",
+  "dependencies": {
+    "typescript": "^4.6.2"
+  }
 }
