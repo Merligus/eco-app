@@ -20,7 +20,7 @@ class PointsController {
         const serializedPoints = points.map(point => {
             return {
                 ...point,
-                image_url: `http://localhost:3000/uploads/${point.image}`,
+                image_url: `https://merligus-eco-app.herokuapp.com/uploads/${point.image}`,
             };
         });
             
@@ -43,7 +43,7 @@ class PointsController {
         
         const serializedPoint = {
                 ...point,
-                image_url: `http://localhost:3000/uploads/${point.image}`,
+                image_url: `https://merligus-eco-app.herokuapp.com/uploads/${point.image}`,
             };
 
         return res.json({point: serializedPoint, items});

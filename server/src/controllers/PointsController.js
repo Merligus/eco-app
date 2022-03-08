@@ -28,7 +28,7 @@ class PointsController {
                 .distinct()
                 .select("points.*");
             const serializedPoints = points.map(point => {
-                return Object.assign(Object.assign({}, point), { image_url: `http://localhost:3000/uploads/${point.image}` });
+                return Object.assign(Object.assign({}, point), { image_url: `https://merligus-eco-app.herokuapp.com/uploads/${point.image}` });
             });
             return res.json(serializedPoints);
         });
@@ -44,7 +44,7 @@ class PointsController {
                 .join("point_items", "items.id", "=", "point_items.item_id")
                 .where("point_items.point_id", id)
                 .select("items.title");
-            const serializedPoint = Object.assign(Object.assign({}, point), { image_url: `http://localhost:3000/uploads/${point.image}` });
+            const serializedPoint = Object.assign(Object.assign({}, point), { image_url: `https://merligus-eco-app.herokuapp.com/uploads/${point.image}` });
             return res.json({ point: serializedPoint, items });
         });
     }
