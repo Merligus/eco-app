@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "heroku-prebuild": "cd server && npm install",
+    "build": "cd server && tsc",
     "start": "cd server && npm start",
     "web-build": "cd web && npm install && npm run build"
   },
