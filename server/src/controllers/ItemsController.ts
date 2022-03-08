@@ -8,7 +8,7 @@ class ItemsController {
             return {
                 id: item.id,
                 title: item.title,
-                image_url: `http://localhost:3000/uploads/${item.image}`,
+                image_url: `https://merligus-eco-app.herokuapp.com/uploads/${item.image}`,
             };
         });
     
