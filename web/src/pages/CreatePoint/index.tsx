@@ -156,7 +156,8 @@ const CreatePoint = () => {
             </header>
 
             <form onSubmit={handleSubmit}>
-                <h1>Register <br /> collect point</h1>
+
+                <h1 className="page-name">Register collect point</h1>
 
                 <Dropzone onFileUploaded={setSelectedFile} />
 
@@ -204,14 +205,16 @@ const CreatePoint = () => {
                         <span>Select the address in the map</span>
                     </legend>
 
-                    <MapContainer center={selectedPosition} zoom={2}>
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
+                    <div className="leaflet-container">
+                        <MapContainer center={selectedPosition} zoom={2}>
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
 
-                        <LocationMarker />
-                    </MapContainer>
+                            <LocationMarker />
+                        </MapContainer>
+                    </div>
 
                     <div className="field-group">
                         <div className="field">

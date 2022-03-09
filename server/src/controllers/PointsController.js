@@ -16,19 +16,30 @@ const connection_1 = __importDefault(require("./../database/connection"));
 class PointsController {
     index(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { city, uf, items } = req.query;
-            const parsedItems = String(items)
-                .split(",")
-                .map(item => Number(item.trim()));
+            var { city, uf, items } = req.query;
+            city = city ? String(city).toLowerCase() : "";
+            uf = uf ? String(uf).toLowerCase() : "";
+            let parsedItems;
+            if (!items || items.length === 0) {
+                parsedItems = yield (yield (0, connection_1.default)("items").select("id")).map(item => item.id);
+            }
+            else {
+                parsedItems = String(items)
+                    .split(",")
+                    .map(item => Number(item.trim()));
+            }
             const points = yield (0, connection_1.default)("points")
                 .join("point_items", "points.id", "=", "point_items.point_id")
                 .whereIn("point_items.item_id", parsedItems)
-                .where("city", String(city))
-                .where("uf", String(uf))
+                .where("city", "like", `%${city}%`)
+                .where("uf", "like", `%${uf}%`)
                 .distinct()
-                .select("points.*");
+                .groupBy("point_id")
+                .select(connection_1.default.raw("points.*, group_concat(item_id) as items_raw"));
             const serializedPoints = points.map(point => {
-                return Object.assign(Object.assign({}, point), { image_url: `https://merligus-eco-app.herokuapp.com/uploads/${point.image}` });
+                return Object.assign(Object.assign({}, point), { items: point.items_raw
+                        .split(",")
+                        .map((item) => Number(item)), image_url: `${process.env.URL_DOMAIN}/uploads/${point.image}` });
             });
             return res.json(serializedPoints);
         });
@@ -44,7 +55,7 @@ class PointsController {
                 .join("point_items", "items.id", "=", "point_items.item_id")
                 .where("point_items.point_id", id)
                 .select("items.title");
-            const serializedPoint = Object.assign(Object.assign({}, point), { image_url: `https://merligus-eco-app.herokuapp.com/uploads/${point.image}` });
+            const serializedPoint = Object.assign(Object.assign({}, point), { image_url: `${process.env.URL_DOMAIN}/uploads/${point.image}` });
             return res.json({ point: serializedPoint, items });
         });
     }

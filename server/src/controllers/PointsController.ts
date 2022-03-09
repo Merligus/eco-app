@@ -3,24 +3,37 @@ import knex from "./../database/connection";
 
 class PointsController {
     async index(req: Request, res: Response) {
-        const { city, uf, items } = req.query;
+        var { city, uf, items } = req.query;
 
-        const parsedItems = String(items)
-            .split(",")
-            .map(item => Number(item.trim()));
+        city = city ? String(city).toLowerCase() : "";
+        uf = uf ? String(uf).toLowerCase() : "";
+
+        let parsedItems: number[];
+        if (!items || items.length === 0) {
+            parsedItems = await (await knex("items").select("id")).map(item => item.id);
+        }
+        else {
+            parsedItems = String(items)
+                .split(",")
+                .map(item => Number(item.trim()));
+        }
 
         const points = await knex("points")
             .join("point_items", "points.id", "=", "point_items.point_id")
             .whereIn("point_items.item_id", parsedItems)
-            .where("city", String(city))
-            .where("uf", String(uf))
+            .where("city", "like", `%${city}%`)
+            .where("uf", "like", `%${uf}%`)
             .distinct()
-            .select("points.*");
+            .groupBy("point_id")
+            .select(knex.raw("points.*, group_concat(item_id) as items_raw"));
         
         const serializedPoints = points.map(point => {
             return {
                 ...point,
-                image_url: `https://merligus-eco-app.herokuapp.com/uploads/${point.image}`,
+                items: point.items_raw
+                    .split(",")
+                    .map((item: String) => Number(item)),
+                image_url: `${process.env.URL_DOMAIN}/uploads/${point.image}`,
             };
         });
             
@@ -43,7 +56,7 @@ class PointsController {
         
         const serializedPoint = {
                 ...point,
-                image_url: `https://merligus-eco-app.herokuapp.com/uploads/${point.image}`,
+                image_url: `${process.env.URL_DOMAIN}/uploads/${point.image}`,
             };
 
         return res.json({point: serializedPoint, items});

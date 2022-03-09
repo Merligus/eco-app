@@ -1,5 +1,5 @@
 import React from "react";
-import { FiLogIn } from "react-icons/fi";
+import { FiLogIn, FiAlignJustify } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import "./styles.css";
@@ -23,6 +23,13 @@ const Home = () => {
                             <FiLogIn />
                         </span>
                         <strong>Register a collect point</strong>
+                    </Link>
+
+                    <Link to="/places">
+                        <span>
+                            <FiAlignJustify />
+                        </span>
+                        <strong>List of all collect points</strong>
                     </Link>
                 </main>
             </div>

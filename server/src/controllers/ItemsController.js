@@ -21,7 +21,7 @@ class ItemsController {
                 return {
                     id: item.id,
                     title: item.title,
-                    image_url: `https://merligus-eco-app.herokuapp.com/uploads/${item.image}`,
+                    image_url: `${process.env.URL_DOMAIN}/uploads/${item.image}`,
                 };
             });
             return res.json(serializedItems);

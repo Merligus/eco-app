@@ -3,6 +3,7 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 import Home from "./pages/Home";
 import CreatePoint from "./pages/CreatePoint";
+import ListPoints from "./pages/ListPoints";
 
 const Router = () => {
     return (
@@ -10,6 +11,7 @@ const Router = () => {
             <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/register" element={<CreatePoint />}></Route>
+                <Route path="/places" element={<ListPoints />}></Route>
             </Routes>
         </BrowserRouter>
     );
